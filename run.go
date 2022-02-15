@@ -14,7 +14,7 @@ var _ Runs = (*runs)(nil)
 // Runs describes all the run related methods that the Terraform Enterprise
 // API supports.
 //
-// TFE API docs: https://www.terraform.io/docs/enterprise/api/run.html
+// TFE API docs: https://www.terraform.io/docs/cloud/api/run.html
 type Runs interface {
 	// List all the runs of the given workspace.
 	List(ctx context.Context, workspaceID string, options RunListOptions) (*RunList, error)
@@ -91,6 +91,7 @@ type RunList struct {
 type Run struct {
 	ID                     string               `jsonapi:"primary,runs"`
 	Actions                *RunActions          `jsonapi:"attr,actions"`
+	AutoApply              bool                 `jsonapi:"attr,auto-apply,omitempty"`
 	CreatedAt              time.Time            `jsonapi:"attr,created-at,iso8601"`
 	ForceCancelAvailableAt time.Time            `jsonapi:"attr,force-cancel-available-at,iso8601"`
 	HasChanges             bool                 `jsonapi:"attr,has-changes"`
@@ -105,6 +106,7 @@ type Run struct {
 	Status                 RunStatus            `jsonapi:"attr,status"`
 	StatusTimestamps       *RunStatusTimestamps `jsonapi:"attr,status-timestamps"`
 	TargetAddrs            []string             `jsonapi:"attr,target-addrs,omitempty"`
+	Variables              []*RunVariable       `jsonapi:"attr,variables"`
 
 	// Relations
 	Apply                *Apply                `jsonapi:"relation,apply"`
@@ -161,6 +163,14 @@ type RunListOptions struct {
 	// A list of relations to include. See available resources:
 	// https://www.terraform.io/docs/cloud/api/run.html#available-related-resources
 	Include *string `url:"include"`
+}
+
+// RunVariable represents a variable that can be applied to a run. All values must be expressed as an HCL literal
+// in the same syntax you would use when writing terraform code. See https://www.terraform.io/docs/language/expressions/types.html#types
+// for more details.
+type RunVariable struct {
+	Key   string `jsonapi:"attr,key"`
+	Value string `jsonapi:"attr,value"`
 }
 
 // List all the runs of the given workspace.
@@ -232,6 +242,14 @@ type RunCreateOptions struct {
 	// (destroys and then re-creates) the objects specified by the given
 	// resource addresses.
 	ReplaceAddrs []string `jsonapi:"attr,replace-addrs,omitempty"`
+
+	// AutoApply determines if the run should be applied automatically without
+	// user confirmation. It defaults to the Workspace.AutoApply setting.
+	AutoApply *bool `jsonapi:"attr,auto-apply,omitempty"`
+
+	// RunVariables allows you to specify terraform input variables for
+	// a particular run, prioritized over variables defined on the workspace.
+	Variables []*RunVariable `jsonapi:"attr,variables,omitempty"`
 }
 
 func (o RunCreateOptions) valid() error {

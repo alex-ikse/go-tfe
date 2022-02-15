@@ -6,10 +6,10 @@ import (
 
 // Generic errors applicable to all resources.
 var (
-	// ErrUnauthorized is returned when a receiving a 401.
+	// ErrUnauthorized is returned when receiving a 401.
 	ErrUnauthorized = errors.New("unauthorized")
 
-	// ErrResourceNotFound is returned when a receiving a 404.
+	// ErrResourceNotFound is returned when receiving a 404.
 	ErrResourceNotFound = errors.New("resource not found")
 
 	// ErrRequiredName is returned when a name option is not present.
@@ -32,6 +32,10 @@ var (
 	// a unlocked workspace.
 	ErrWorkspaceNotLocked = errors.New("workspace already unlocked")
 
+	// ErrWorkspaceLockedByRun is returned when trying to unlock a
+	// workspace locked by a run
+	ErrWorkspaceLockedByRun = errors.New("unable to unlock workspace locked by run")
+
 	// ErrInvalidWorkspaceID is returned when the workspace ID is invalid.
 	ErrInvalidWorkspaceID = errors.New("invalid value for workspace ID")
 
@@ -43,6 +47,9 @@ var (
 
 	// ErrWorkspaceMinLimit is returned when the length of Workspaces is 0.
 	ErrWorkspaceMinLimit = errors.New("must provide at least one workspace")
+
+	// ErrMissingTagIdentifier is returned when tag resource identifiers are invalid
+	ErrMissingTagIdentifier = errors.New("must specify at least one tag by ID or name")
 
 	// Run/Apply errors
 

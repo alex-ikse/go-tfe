@@ -16,13 +16,14 @@ import (
 	"github.com/hashicorp/go-uuid"
 )
 
-const badIdentifier = "! / nope"
+const badIdentifier = "! / nope" //nolint
 
 // Memoize test account details
 var _testAccountDetails *TestAccountDetails
 
 func testClient(t *testing.T) *Client {
 	client, err := NewClient(nil)
+	client.RetryServerErrors(true) // because ocasionally we get a 500 internal when deleting an organization's workspace
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -561,9 +562,8 @@ func createRunWithStatus(t *testing.T, client *Client, w *Workspace, timeout int
 func createPlannedRun(t *testing.T, client *Client, w *Workspace) (*Run, func()) {
 	if paidFeaturesDisabled() {
 		return createRunWithStatus(t, client, w, 45, RunPlanned)
-	} else {
-		return createRunWithStatus(t, client, w, 45, RunCostEstimated)
 	}
+	return createRunWithStatus(t, client, w, 45, RunCostEstimated)
 }
 
 func createCostEstimatedRun(t *testing.T, client *Client, w *Workspace) (*Run, func()) {
@@ -787,6 +787,8 @@ func createTeam(t *testing.T, client *Client, org *Organization) (*Team, func())
 		OrganizationAccess: &OrganizationAccessOptions{
 			ManagePolicies:        Bool(true),
 			ManagePolicyOverrides: Bool(true),
+			ManageProviders:       Bool(true),
+			ManageModules:         Bool(true),
 		},
 	})
 	if err != nil {
