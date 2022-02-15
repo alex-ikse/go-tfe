@@ -1005,7 +1005,7 @@ func createVariableSet(t *testing.T, client *Client, org *Organization, options 
 	}
 
 	ctx := context.Background()
-	vs, err := client.VariableSets.Create(ctx, org.Name, options)
+	vs, err := client.VariableSets.Create(ctx, org.Name, &options)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1055,7 +1055,7 @@ func createVariableSetVariable(t *testing.T, client *Client, vs *VariableSet, op
 	}
 
 	ctx := context.Background()
-	v, err := client.VariableSetVariables.Create(ctx, vs.ID, options)
+	v, err := client.VariableSetVariables.Create(ctx, vs.ID, &options)
 	if err != nil {
 		t.Fatal(err)
 	}
