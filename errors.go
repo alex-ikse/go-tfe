@@ -82,7 +82,7 @@ var (
 	// ErrInvalidConfigVersionID is returned when the configuration version ID is invalid.
 	ErrInvalidConfigVersionID = errors.New("invalid value for configuration version ID")
 
-	// Cost Esimation Errors
+	// Cost Estimation Errors
 
 	// ErrInvalidCostEstimateID is returned when the cost estimate ID is invalid.
 	ErrInvalidCostEstimateID = errors.New("invalid value for cost estimate ID")
@@ -105,4 +105,31 @@ var (
 
 	// ErrInvalidTerraformVersionType is returned when the type is not valid.
 	ErrInvalidTerraformVersionType = errors.New("invalid type for terraform version. Please use 'terraform-version'")
+
+	// Registry Errors
+
+	// ErrInvalidNamespace is returned when the namespace is not valid.
+	ErrInvalidNamespace = errors.New("invalid value for namespace")
+
+	// ErrPrivateProviderNamespaceDoesntMatchOrganization is returned if the provider namespace doesn't
+	// match the organization name
+	ErrPrivateProviderNamespaceDoesntMatchOrganization = errors.New("namespace must match organization name for private providers")
+
+	// ErrInvalidProvider is returned when the provider is not valid.
+	ErrInvalidProvider = errors.New("invalid value for provider")
+
+	// ErrInvalidRegistryName is returned when a registry-name is not valid.
+	ErrInvalidRegistryName = errors.New("invalid value for registry-name")
+
+	// ErrInvalidRegistryNameType is returned when the type is not valid.
+	ErrInvalidRegistryNameType = errors.New("invalid type for registry-name. Please use 'RegistryName'")
+
+	// ErrInvalidKeyID is returned when a key-id is not valid.
+	ErrInvalidKeyID = errors.New("invalid value for key-id")
+
+	// ErrInvalidVersion is returned when the version is not valid.
+	ErrInvalidVersion = errors.New("invalid value for version")
+
+	// ErrPrivateRegistryRequired is returned when private registry is required.
+	ErrPrivateRegistryRequired = errors.New("only private registry is allowed")
 )
