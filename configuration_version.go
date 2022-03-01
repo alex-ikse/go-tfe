@@ -55,6 +55,7 @@ type ConfigurationStatus string
 const (
 	ConfigurationArchived ConfigurationStatus = "archived"
 	ConfigurationErrored  ConfigurationStatus = "errored"
+	ConfigurationFetching ConfigurationStatus = "fetching"
 	ConfigurationPending  ConfigurationStatus = "pending"
 	ConfigurationUploaded ConfigurationStatus = "uploaded"
 )
