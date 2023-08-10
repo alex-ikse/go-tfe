@@ -1,5 +1,8 @@
 # Unreleased
 
+* Adds `AgentsCeilingOverride` and `RunsCeilingOverride` fields in `AdminOrganization` and `AdminOrganizationUpdateOptions` structs
+* Removed beta tags for TeamProjectAccess by @rberecka [#756](https://github.com/hashicorp/go-tfe/pull/756)
+
 # v1.42.0
 
 ## Deprecations
